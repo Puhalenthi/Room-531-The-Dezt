@@ -39,7 +39,7 @@ public class TeacherMovement : MonoBehaviour
         {
             direction = new Vector3(doorWayTransform.position.x - transform.position.x, 0, doorWayTransform.position.z - transform.position.z).normalized;
         }
-        transform.Translate(direction * currentMovementSpeed);
+        transform.Translate(direction * currentMovementSpeed, Space.World);
     }
 
     public void OnCollisionEnter(Collision collision)
