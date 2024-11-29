@@ -19,12 +19,14 @@ public class TeacherMovement : MonoBehaviour
 
     public float AgroWaitTime;
     private bool followPlayer;
+    private bool canDespawn;
     // Start is called before the first frame update
     void Start()
     {
         playerTransform = Player.GetComponent<Transform>();
         doorWayTransform = DoorWay.GetComponent<Transform>();
         followPlayer = true;
+        canDespawn = false;
         currentMovementSpeed = 0;
         StartCoroutine("JumpScareTimeout");
     }
@@ -40,6 +42,14 @@ public class TeacherMovement : MonoBehaviour
             direction = new Vector3(doorWayTransform.position.x - transform.position.x, 0, doorWayTransform.position.z - transform.position.z).normalized;
         }
         transform.Translate(direction * currentMovementSpeed, Space.World);
+
+        if (canDespawn)
+        {
+            if (System.Math.Abs(transform.position.x - doorWayTransform.position.x) < 1 && System.Math.Abs(transform.position.z - doorWayTransform.position.z) < 1)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -62,6 +72,7 @@ public class TeacherMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         currentMovementSpeed = MovementSpeed;
+        yield return new WaitForSeconds(1);
+        canDespawn = true;
     }
-
 }

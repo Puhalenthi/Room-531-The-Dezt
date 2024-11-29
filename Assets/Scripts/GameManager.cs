@@ -18,7 +18,9 @@ public class GameManager : MonoBehaviour
     public float StartingTeacherSpawnDelay;
     public float AfterWarningSoundDelay;
     public float WarningSoundDuration;
+
     private float teacherSpawnDelay;
+    public float MinSpawnDelay;
     private int teacherSpawnCount;
 
     // Start is called before the first frame update
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
             newTeacherScript.DoorWay = DoorWay;
             
             teacherSpawnCount++;
-            if (teacherSpawnCount % 5 == 0)
+            if (teacherSpawnCount % 5 == 0 && teacherSpawnDelay > MinSpawnDelay)
             {
                 teacherSpawnDelay -= 0.2f;
             }
