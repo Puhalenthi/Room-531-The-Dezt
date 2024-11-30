@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Big Teacher
   m_EditorClassIdentifier: 
   movementSpeed: 0.01
-  scale: 2
+  scale: 1.5
   deathMessage: {fileID: 8300000, guid: ef1171d1304bdc04d96de831ca9fcd9f, type: 3}

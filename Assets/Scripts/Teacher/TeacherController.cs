@@ -70,6 +70,7 @@ public class TeacherMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             TeacherType.KillPlayerAction(audioSource);
+            currentMovementSpeed = 0;
         }
     }
 

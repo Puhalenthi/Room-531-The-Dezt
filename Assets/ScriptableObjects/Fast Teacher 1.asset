@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2b206a1a6ac7441843cbb5a60043cd, type: 3}
   m_Name: Fast Teacher 1
   m_EditorClassIdentifier: 
-  movementSpeed: 0.1
+  movementSpeed: 0.05
   scale: 1
   deathMessage: {fileID: 8300000, guid: 0e826aa492017e4439f35e5dcbd4f3c3, type: 3}
