@@ -59,6 +59,9 @@ MonoBehaviour:
   AfterWarningSoundDelay: 10
   WarningSoundDuration: 5
   MinSpawnDelay: 10
+  teacherTypes:
+  - {fileID: 11400000, guid: 3d82f37734e98564e96858a1c99141b1, type: 2}
+  - {fileID: 11400000, guid: bb15bcbf5d9f0b649962efa4be89d613, type: 2}
 --- !u!82 &2202070266664336010
 AudioSource:
   m_ObjectHideFlags: 0
