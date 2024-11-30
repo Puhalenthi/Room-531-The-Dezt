@@ -62,6 +62,7 @@ public class TeacherMovement : MonoBehaviour
     }
 
     public void OnCollisionEnter(Collision collision)
+        // Detects of the teacher collides with an empty desk or the player
     {
         if (collision.gameObject.CompareTag("HidingDesk"))
         {
@@ -83,6 +84,7 @@ public class TeacherMovement : MonoBehaviour
     }
 
     public void OnTriggerEnter(Collider other)
+        // Despawns teacher if exits the room
     {
         if (other.gameObject.CompareTag("Doorway"))
         {
