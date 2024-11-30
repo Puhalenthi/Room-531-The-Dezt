@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 705507994}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -360,6 +360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 133080685}
+  - component: {fileID: 133080686}
   m_Layer: 0
   m_Name: Classroom
   m_TagString: Untagged
@@ -387,6 +388,18 @@ Transform:
   - {fileID: 960031462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &133080686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133080684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310615f230f8180409923128955b001b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &161662744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,6 +2318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 727865934}
+  - component: {fileID: 727865935}
   m_Layer: 0
   m_Name: Walls
   m_TagString: Untagged
@@ -2343,6 +2357,18 @@ Transform:
   - {fileID: 779503089}
   m_Father: {fileID: 133080685}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &727865935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727865933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310615f230f8180409923128955b001b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &728845231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3863,7 +3889,7 @@ GameObject:
   - component: {fileID: 1234837995}
   - component: {fileID: 1234837994}
   m_Layer: 0
-  m_Name: Doorway
+  m_Name: Plane.006 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6204,4 +6230,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
+  - {fileID: 705507995}
   - {fileID: 133080685}
