@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
     public GameObject player;
 
     [SerializeField]
-    private float playerSpeed = 1.0f;
-    private float playerRotationSpeed = 1.0f;
+    private float playerSpeed = 6.0f;
+
+    private bool isCrouching = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,12 +38,23 @@ public class PlayerController : MonoBehaviour
         {
             player.transform.Translate(Vector3.right * playerSpeed * Time.deltaTime);
         }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            ToggleCrouch();
+        }
+    }
 
-        //use quaternion to rotate the player based on mouse movement
-        float horizontal = Input.GetAxis("Mouse X") * playerRotationSpeed;
-        float vertical = Input.GetAxis("Mouse Y") * playerRotationSpeed;
-        player.transform.Rotate(vertical, horizontal, 0);
-
-
+    void ToggleCrouch()
+    {
+        if (isCrouching)
+        {
+            isCrouching = false;
+            player.transform.Translate(new Vector3(0, +0.5f, 0));
+        }
+        else
+        {
+            isCrouching = true;
+            player.transform.Translate(new Vector3(0, -0.5f, 0));
+        }
     }
 }
