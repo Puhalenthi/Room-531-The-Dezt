@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - HidingDesk
+  - Doorway
   layers:
   - Default
   - TransparentFX
