@@ -5,20 +5,15 @@ using System;
 
 public class DeztGen : MonoBehaviour
 {
-    System.Random rnd = new System.Random();
+    private static System.Random rnd = new System.Random();
     
-    void Awake() 
-    {
-        Debug.Log(FormatDeztQuestion(GenDeztQuestion()[0]));
-    }
-    
-    public List<List<int>> GenDeztQuestion()
+    public static (List<int> question, List<int> answer) GenDeztQuestion()
     {
         int noOfRoots = rnd.Next(3, 8);
-        List<int> roots = new List<int>();
+        List<int> roots = new List<int>(noOfRoots);
         for (int i = 0; i < noOfRoots; i ++) 
         {
-            roots.Add(rnd.Next(202) - 101); //(-1000, 1000)
+            roots[i] = rnd.Next(202) - 101; //(-100, 100)
         }
         List<int> polynomial = new List<int>{1};
         int[] pastPolynomial;
@@ -33,14 +28,10 @@ public class DeztGen : MonoBehaviour
                 polynomial[degree] = pastPolynomial[degree - 1] - root * polynomial[degree];
             }
         }
-        
-        List<List<int>> result = new List<List<int>>();
-        result.Add(polynomial);
-        result.Add(roots);
-        return result;
+        return (polynomial, roots);
     }
     
-    public string FormatDeztQuestion(List<int> deztPolynomial) //Formats the polynomial for input into TextMeshPro
+    public static string FormatDeztQuestion(List<int> deztPolynomial) //Formats the polynomial for input into TextMeshPro
     {
         string formattedQuestion = "";
         string term;
@@ -100,7 +91,7 @@ public class DeztGen : MonoBehaviour
         return formattedQuestion;
     }
     
-    public List<string> FormatDeztQuestion(List<int> deztPolynomial, List<int> roots)
+    public static List<string> FormatDeztQuestion(List<int> deztPolynomial, List<int> roots)
     {
         string formattedQuestion = FormatDeztQuestion(deztPolynomial);
         string formattedAnswer = String.Join(", ", roots.ToArray());
