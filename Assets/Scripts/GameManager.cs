@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public float MinSpawnDelay;
     private int teacherSpawnCount;
 
+    public Teacher[] teacherTypes;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
             TeacherMovement newTeacherScript = newTeacher.GetComponent<TeacherMovement>();
             newTeacherScript.Player = Player;
             newTeacherScript.DoorWay = DoorWay;
+            newTeacherScript.TeacherType = teacherTypes[Random.Range(0, teacherTypes.Length)];
             
             teacherSpawnCount++;
             if (teacherSpawnCount % 5 == 0 && teacherSpawnDelay > MinSpawnDelay)
