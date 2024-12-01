@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class TeacherMovement : MonoBehaviour
 {
+    public Teacher TeacherType;
+
     public GameObject Player;
     private Transform playerTransform;
     public GameObject DoorWay;
     private Transform doorWayTransform;
 
-    public float MovementSpeed;
+    private AudioSource audioSource;
+
     private float currentMovementSpeed;
     private Vector3 direction;
 
@@ -20,11 +24,16 @@ public class TeacherMovement : MonoBehaviour
     public float AgroWaitTime;
     private bool followPlayer;
     private bool canDespawn;
+
     // Start is called before the first frame update
     void Start()
     {
         playerTransform = Player.GetComponent<Transform>();
         doorWayTransform = DoorWay.GetComponent<Transform>();
+        audioSource = GetComponent<AudioSource>();
+
+        transform.localScale = new Vector3(TeacherType.scale, TeacherType.scale, TeacherType.scale);
+        
         followPlayer = true;
         canDespawn = false;
         currentMovementSpeed = 0;
@@ -53,11 +62,44 @@ public class TeacherMovement : MonoBehaviour
     }
 
     public void OnCollisionEnter(Collision collision)
+        // Detects of the teacher collides with an empty desk or the player
     {
         if (collision.gameObject.CompareTag("HidingDesk"))
         {
-            currentMovementSpeed = 0;
             StartCoroutine("WaitToLeavePlayer");
+        }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            TeacherType.KillPlayerAction(audioSource);
+            currentMovementSpeed = 0;
+        }
+    }
+
+    public void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("HidingDesk"))
+        {
+            StopCoroutine("WaitToLeavePlayer");
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+        // Despawns teacher if exits the room
+    {
+        if (other.gameObject.CompareTag("Doorway"))
+        {
+            if (canDespawn)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Doorway"))
+        {
+            //canDespawn = true;
         }
     }
 
@@ -65,14 +107,12 @@ public class TeacherMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(AgroWaitTime);
         followPlayer = false;
-        currentMovementSpeed = MovementSpeed;
+        currentMovementSpeed = TeacherType.movementSpeed;
     }
 
     IEnumerator JumpScareTimeout()
     {
         yield return new WaitForSeconds(2);
-        currentMovementSpeed = MovementSpeed;
-        yield return new WaitForSeconds(1);
-        canDespawn = true;
+        currentMovementSpeed = TeacherType.movementSpeed;
     }
 }
