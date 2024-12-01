@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject PlayerPrefab;
     public GameObject Player;
     public GameObject TeacherPrefab;
     public GameObject DoorWay;
@@ -29,6 +30,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Player = Instantiate(PlayerPrefab, new Vector3(0, -0.5f, 0), Quaternion.identity);
+
         teacherSpawnDelay = StartingTeacherSpawnDelay;
         teacherSpawnCount = 0;
         StartCoroutine("teacherSpawn");
