@@ -13,7 +13,7 @@ public class TeacherMovement : MonoBehaviour
     public GameObject Player;
     
     private Transform _playerTransform;
-    private PlayerController playerController;
+    private PlayerController _playerController;
     public GameObject DoorWay;
     
     private Transform _doorWayTransform;
@@ -55,7 +55,7 @@ public class TeacherMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_followPlayer)
+        if (followPlayer)
         {
             _direction = new Vector3(_playerTransform.position.x - transform.position.x, 0, _playerTransform.position.z - transform.position.z).normalized;
         }
@@ -97,11 +97,11 @@ public class TeacherMovement : MonoBehaviour
             //stops the teacher from teleporting into the player while they are hiding
             if (_playerController.IsHiding && _playerController.CurrentHidingDesk == collision.gameObject)
             {
-                currentMovementSpeed = 0;
+                _currentMovementSpeed = 0;
             }
             else
             {
-                currentMovementSpeed = TeacherType.movementSpeed;
+                _currentMovementSpeed = TeacherType.movementSpeed;
                 StopCoroutine("WaitToLeavePlayer");
             }
         }
@@ -131,7 +131,7 @@ public class TeacherMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Doorway"))
         {
-            canDespawn = true;
+            _canDespawn = true;
         }
     }
 
@@ -143,7 +143,7 @@ public class TeacherMovement : MonoBehaviour
     IEnumerator WaitToLeavePlayer()
     {
         yield return new WaitForSeconds(AgroWaitTime);
-        _followPlayer = false;
+        followPlayer = false;
         _currentMovementSpeed = TeacherType.movementSpeed;
     }
 
