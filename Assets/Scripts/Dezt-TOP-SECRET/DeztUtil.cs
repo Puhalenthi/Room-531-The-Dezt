@@ -13,7 +13,7 @@ public class DeztUtil : MonoBehaviour
         List<int> roots = new List<int>(noOfRoots);
         for (int i = 0; i < noOfRoots; i++)
         {
-            roots.Add(rnd.Next(52) - 26); //(-25, 25)
+            roots.Add(rnd.Next(22) - 11); //(-10, 10)
         }
         List<int> polynomial = new List<int> { 1 };
         int[] pastPolynomial;

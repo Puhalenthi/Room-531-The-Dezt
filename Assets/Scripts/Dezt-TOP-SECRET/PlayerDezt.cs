@@ -24,7 +24,7 @@ public class PlayerDezt : MonoBehaviour //This will be a singleton
         }
     }
     
-    void OnEnable()
+    private void OnEnable()
     {
         StartCoroutine(GetQuestions());
     }
@@ -38,11 +38,11 @@ public class PlayerDezt : MonoBehaviour //This will be a singleton
             //Debug.Log(i);
             (List<int> lQuestion, List<int> lAnswer) = DeztUtil.GenDeztQuestion();
             List<string> formattedQuestion = DeztUtil.FormatDeztQuestion(lQuestion, lAnswer);
-            if (i == 1) {
+            if (i == 0) {
                 Debug.Log(formattedQuestion[0]);
             }
-            DeztQuestions.Add(formattedQuestion[0]);
-            DeztAnswers.Add(formattedQuestion[1]);
+            Instance.DeztQuestions.Add(formattedQuestion[0]);
+            Instance.DeztAnswers.Add(formattedQuestion[1]);
         }
     }
 }

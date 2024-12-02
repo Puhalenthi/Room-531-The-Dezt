@@ -25,14 +25,16 @@ public class PlayerDController : MonoBehaviour
     private float lengthOfPaper;
     private float instructionsPosition;
     private float nextPos;
+    private float xOffset = 80f;
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => PlayerDezt.Instance.DeztQuestions.Count != 0);
         //Setup
         _deztQuestions = PlayerDezt.Instance.DeztQuestions;
         _deztAnswers = PlayerDezt.Instance.DeztAnswers;
-        _count = 10;
+        _count = _deztQuestions.Count;
         problemsList = new List<GameObject>(_count);
 
         lengthOfPaper = TestPaperImage.transform.localScale.y;
@@ -48,16 +50,24 @@ public class PlayerDController : MonoBehaviour
 
             //Positioning
             //575
+            problem.transform.parent = this.transform.parent;
             nextPos += 10.0f;
-            problem.transform.localPosition = new Vector3(problem.transform.localPosition.x, nextPos, problem.transform.localPosition.z);
-            nextPos += heightPerLine * 2; //Each problem is given 40 (units) or about 2 lines
+            problem.transform.localPosition = new Vector3(problem.transform.parent.transform.localPosition.x - xOffset, nextPos, problem.transform.localPosition.z);
+            nextPos += heightPerLine * 3; //Each problem is given 40 (units) or about 2 lines
         }
+        Debug.Log(problemsList.Count);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (_deztQuestions != null && _deztAnswers != null)
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                Debug.Log(_deztAnswers.Count);
+            }
+        }
     }
 }
