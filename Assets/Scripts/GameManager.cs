@@ -20,9 +20,9 @@ public class GameManager : MonoBehaviour
     public float AfterWarningSoundDelay;
     public float WarningSoundDuration;
 
-    private float teacherSpawnDelay;
+    private float _teacherSpawnDelay;
     public float MinSpawnDelay;
-    private int teacherSpawnCount;
+    private int _teacherSpawnCount;
 
     public Teacher[] teacherTypes;
     
@@ -32,8 +32,8 @@ public class GameManager : MonoBehaviour
     {
         Player = Instantiate(PlayerPrefab, new Vector3(10.0f, 1.0f, 10.0f), Quaternion.identity);
 
-        teacherSpawnDelay = StartingTeacherSpawnDelay;
-        teacherSpawnCount = 0;
+        _teacherSpawnDelay = StartingTeacherSpawnDelay;
+        _teacherSpawnCount = 0;
         StartCoroutine("teacherSpawn");
     }
 
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(teacherSpawnDelay);
+            yield return new WaitForSeconds(_teacherSpawnDelay);
             
             // Warning sound
             audioSource.PlayOneShot(GetRandomClip(), VolumeLevel);
@@ -62,10 +62,10 @@ public class GameManager : MonoBehaviour
             newTeacherScript.DoorWay = DoorWay;
             newTeacherScript.TeacherType = teacherTypes[Random.Range(0, teacherTypes.Length)];
             
-            teacherSpawnCount++;
-            if (teacherSpawnCount % 5 == 0 && teacherSpawnDelay > MinSpawnDelay)
+            _teacherSpawnCount++;
+            if (_teacherSpawnCount % 5 == 0 && _teacherSpawnDelay > MinSpawnDelay)
             {
-                teacherSpawnDelay -= 0.2f;
+                _teacherSpawnDelay -= 0.2f;
             }
 
             //Jump scare sound
