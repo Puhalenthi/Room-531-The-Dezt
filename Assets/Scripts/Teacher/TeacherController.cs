@@ -11,8 +11,11 @@ public class TeacherMovement : MonoBehaviour
     public Teacher TeacherType;
 
     public GameObject Player;
+    
     private Transform _playerTransform;
+    private PlayerController playerController;
     public GameObject DoorWay;
+    
     private Transform _doorWayTransform;
 
     private AudioSource _audioSource;
@@ -23,22 +26,29 @@ public class TeacherMovement : MonoBehaviour
 
 
     public float AgroWaitTime;
-    private bool _followPlayer;
+    
+    public bool followPlayer;
     private bool _canDespawn;
+
+    void Awake()
+    {
+        followPlayer = true;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         _playerTransform = Player.GetComponent<Transform>();
+        _playerController = Player.GetComponent<PlayerController>();
         _doorWayTransform = DoorWay.GetComponent<Transform>();
         _audioSource = GetComponent<AudioSource>();
         _teacherRigidBody = GetComponent<Rigidbody>();
 
         transform.localScale = new Vector3(TeacherType.scale, TeacherType.scale, TeacherType.scale);
         
-        _followPlayer = true;
         _canDespawn = false;
         _currentMovementSpeed = 0;
+        
         StartCoroutine("JumpScareTimeout");
     }
 
@@ -48,12 +58,14 @@ public class TeacherMovement : MonoBehaviour
         if (_followPlayer)
         {
             _direction = new Vector3(_playerTransform.position.x - transform.position.x, 0, _playerTransform.position.z - transform.position.z).normalized;
-        } else
+        }
+        else
         {
             _direction = new Vector3(_doorWayTransform.position.x - transform.position.x, 0, _doorWayTransform.position.z - transform.position.z).normalized;
         }
         _teacherRigidBody.MovePosition(transform.position + _direction * _currentMovementSpeed * Time.deltaTime);
 
+        /*
         if (_canDespawn)
         {
             if (System.Math.Abs(transform.position.x - _doorWayTransform.position.x) < 1 && System.Math.Abs(transform.position.z - _doorWayTransform.position.z) < 1)
@@ -61,10 +73,11 @@ public class TeacherMovement : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        */
     }
 
     public void OnCollisionEnter(Collision collision)
-        // Detects of the teacher collides with an empty desk or the player
+    // Detects of the teacher collides with an empty desk or the player
     {
         if (collision.gameObject.CompareTag("HidingDesk"))
         {
@@ -77,6 +90,23 @@ public class TeacherMovement : MonoBehaviour
         }
     }
 
+    public void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("HidingDesk"))
+        {
+            //stops the teacher from teleporting into the player while they are hiding
+            if (_playerController.IsHiding && _playerController.CurrentHidingDesk == collision.gameObject)
+            {
+                currentMovementSpeed = 0;
+            }
+            else
+            {
+                currentMovementSpeed = TeacherType.movementSpeed;
+                StopCoroutine("WaitToLeavePlayer");
+            }
+        }
+    }
+
     public void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("HidingDesk"))
@@ -86,7 +116,7 @@ public class TeacherMovement : MonoBehaviour
     }
 
     public void OnTriggerEnter(Collider other)
-        // Despawns teacher if exits the room
+    // Despawns teacher if exits the room
     {
         if (other.gameObject.CompareTag("Doorway"))
         {
@@ -101,8 +131,13 @@ public class TeacherMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Doorway"))
         {
-            //canDespawn = true;
+            canDespawn = true;
         }
+    }
+
+    public void Despawn(float seconds)
+    {
+        StartCoroutine(WaitAndDespawn(seconds));
     }
 
     IEnumerator WaitToLeavePlayer()
@@ -117,4 +152,12 @@ public class TeacherMovement : MonoBehaviour
         yield return new WaitForSeconds(2);
         _currentMovementSpeed = TeacherType.movementSpeed;
     }
+
+    IEnumerator WaitAndDespawn(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Destroy(gameObject);
+    }
+
+
 }

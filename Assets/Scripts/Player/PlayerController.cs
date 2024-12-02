@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject player;
-
     
     private float _playerWalkingSpeed = 2.0f;
     private float _playerCrouchingSpeed = 1.0f;
@@ -13,11 +12,18 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _playerRigidbody;
 
     private bool _isCrouching = false;
+    public bool IsHiding { get; private set; }
+    public GameObject CurrentHidingDesk { get; private set;}
+
+    public bool IsSitting { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
         _playerRigidbody = player.GetComponent<Rigidbody>();
+        IsHiding = false;
+        //TODO- change the line to IsSitting = true once the sitting mechanic is implemented
+        IsSitting = false;
     }
 
     // Update is called once per frame
@@ -66,6 +72,24 @@ public class PlayerController : MonoBehaviour
         {
             _isCrouching = true;
             player.transform.Translate(new Vector3(0, -0.5f, 0));
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("HidingTrigger"))
+        {
+            IsHiding = true;
+            CurrentHidingDesk = other.gameObject.transform.parent.gameObject;
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("HidingTrigger"))
+        {
+            IsHiding = false;
+            CurrentHidingDesk = null;
         }
     }
 }
