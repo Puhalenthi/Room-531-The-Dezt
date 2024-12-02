@@ -29,11 +29,10 @@ public class PlayerDController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        new WaitForSeconds(2);
         //Setup
         _deztQuestions = PlayerDezt.Instance.DeztQuestions;
         _deztAnswers = PlayerDezt.Instance.DeztAnswers;
-        _count = _deztQuestions.Count;
+        _count = 10;
         problemsList = new List<GameObject>(_count);
 
         lengthOfPaper = TestPaperImage.transform.localScale.y;

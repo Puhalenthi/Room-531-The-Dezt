@@ -16,6 +16,7 @@ public class TeacherMovement : MonoBehaviour
     private Transform doorWayTransform;
 
     private AudioSource audioSource;
+    private Rigidbody teacherRigidBody;
 
     private float currentMovementSpeed;
     private Vector3 direction;
@@ -31,6 +32,7 @@ public class TeacherMovement : MonoBehaviour
         playerTransform = Player.GetComponent<Transform>();
         doorWayTransform = DoorWay.GetComponent<Transform>();
         audioSource = GetComponent<AudioSource>();
+        teacherRigidBody = GetComponent<Rigidbody>();
 
         transform.localScale = new Vector3(TeacherType.scale, TeacherType.scale, TeacherType.scale);
         
@@ -50,7 +52,7 @@ public class TeacherMovement : MonoBehaviour
         {
             direction = new Vector3(doorWayTransform.position.x - transform.position.x, 0, doorWayTransform.position.z - transform.position.z).normalized;
         }
-        transform.Translate(direction * currentMovementSpeed, Space.World);
+        teacherRigidBody.MovePosition(transform.position + direction * currentMovementSpeed * Time.deltaTime);
 
         if (canDespawn)
         {
