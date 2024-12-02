@@ -11,52 +11,52 @@ public class TeacherMovement : MonoBehaviour
     public Teacher TeacherType;
 
     public GameObject Player;
-    private Transform playerTransform;
+    private Transform _playerTransform;
     public GameObject DoorWay;
-    private Transform doorWayTransform;
+    private Transform _doorWayTransform;
 
-    private AudioSource audioSource;
-    private Rigidbody teacherRigidBody;
+    private AudioSource _audioSource;
+    private Rigidbody _teacherRigidBody;
 
-    private float currentMovementSpeed;
-    private Vector3 direction;
+    private float _currentMovementSpeed;
+    private Vector3 _direction;
 
 
     public float AgroWaitTime;
-    private bool followPlayer;
-    private bool canDespawn;
+    private bool _followPlayer;
+    private bool _canDespawn;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerTransform = Player.GetComponent<Transform>();
-        doorWayTransform = DoorWay.GetComponent<Transform>();
-        audioSource = GetComponent<AudioSource>();
-        teacherRigidBody = GetComponent<Rigidbody>();
+        _playerTransform = Player.GetComponent<Transform>();
+        _doorWayTransform = DoorWay.GetComponent<Transform>();
+        _audioSource = GetComponent<AudioSource>();
+        _teacherRigidBody = GetComponent<Rigidbody>();
 
         transform.localScale = new Vector3(TeacherType.scale, TeacherType.scale, TeacherType.scale);
         
-        followPlayer = true;
-        canDespawn = false;
-        currentMovementSpeed = 0;
+        _followPlayer = true;
+        _canDespawn = false;
+        _currentMovementSpeed = 0;
         StartCoroutine("JumpScareTimeout");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (followPlayer)
+        if (_followPlayer)
         {
-            direction = new Vector3(playerTransform.position.x - transform.position.x, 0, playerTransform.position.z - transform.position.z).normalized;
+            _direction = new Vector3(_playerTransform.position.x - transform.position.x, 0, _playerTransform.position.z - transform.position.z).normalized;
         } else
         {
-            direction = new Vector3(doorWayTransform.position.x - transform.position.x, 0, doorWayTransform.position.z - transform.position.z).normalized;
+            _direction = new Vector3(_doorWayTransform.position.x - transform.position.x, 0, _doorWayTransform.position.z - transform.position.z).normalized;
         }
-        teacherRigidBody.MovePosition(transform.position + direction * currentMovementSpeed * Time.deltaTime);
+        _teacherRigidBody.MovePosition(transform.position + _direction * _currentMovementSpeed * Time.deltaTime);
 
-        if (canDespawn)
+        if (_canDespawn)
         {
-            if (System.Math.Abs(transform.position.x - doorWayTransform.position.x) < 1 && System.Math.Abs(transform.position.z - doorWayTransform.position.z) < 1)
+            if (System.Math.Abs(transform.position.x - _doorWayTransform.position.x) < 1 && System.Math.Abs(transform.position.z - _doorWayTransform.position.z) < 1)
             {
                 Destroy(gameObject);
             }
@@ -72,8 +72,8 @@ public class TeacherMovement : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            TeacherType.KillPlayerAction(audioSource);
-            currentMovementSpeed = 0;
+            TeacherType.KillPlayerAction(_audioSource);
+            _currentMovementSpeed = 0;
         }
     }
 
@@ -90,7 +90,7 @@ public class TeacherMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Doorway"))
         {
-            if (canDespawn)
+            if (_canDespawn)
             {
                 Destroy(gameObject);
             }
@@ -108,13 +108,13 @@ public class TeacherMovement : MonoBehaviour
     IEnumerator WaitToLeavePlayer()
     {
         yield return new WaitForSeconds(AgroWaitTime);
-        followPlayer = false;
-        currentMovementSpeed = TeacherType.movementSpeed;
+        _followPlayer = false;
+        _currentMovementSpeed = TeacherType.movementSpeed;
     }
 
     IEnumerator JumpScareTimeout()
     {
         yield return new WaitForSeconds(2);
-        currentMovementSpeed = TeacherType.movementSpeed;
+        _currentMovementSpeed = TeacherType.movementSpeed;
     }
 }
