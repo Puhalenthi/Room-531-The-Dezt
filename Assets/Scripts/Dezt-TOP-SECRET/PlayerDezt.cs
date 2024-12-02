@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StudentDezt : MonoBehaviour //This will be a singleton
+public class PlayerDezt : MonoBehaviour //This will be a singleton
 {
-    public static StudentDezt Instance {get; private set;}
+    public static PlayerDezt Instance {get; private set;}
     
     [SerializeField]
     private static int _noQuestions = 10;
@@ -31,18 +31,18 @@ public class StudentDezt : MonoBehaviour //This will be a singleton
     
     private IEnumerator GetQuestions() //Gets the questions and answers for the tests
     {
-        yield return new WaitUntil(() => StudentDezt.Instance != null); //Waits until this instance is instantiated
+        yield return new WaitUntil(() => PlayerDezt.Instance != null); //Waits until this instance is instantiated
         
         for (int i = 0; i < _noQuestions; i ++) 
         {
-            (List<int> lQuestion, List<int> lAnswer) = DeztGen.GenDeztQuestion();
-            List<string> formattedQuestion = DeztGen.FormatDeztQuestion(lQuestion, lAnswer);
-            if (i == _noQuestions - 1)
-            {
+            //Debug.Log(i);
+            (List<int> lQuestion, List<int> lAnswer) = DeztUtil.GenDeztQuestion();
+            List<string> formattedQuestion = DeztUtil.FormatDeztQuestion(lQuestion, lAnswer);
+            if (i == 1) {
                 Debug.Log(formattedQuestion[0]);
             }
-            DeztQuestions[i] = formattedQuestion[0];
-            DeztAnswers[i] = formattedQuestion[1];
+            DeztQuestions.Add(formattedQuestion[0]);
+            DeztAnswers.Add(formattedQuestion[1]);
         }
     }
 }
