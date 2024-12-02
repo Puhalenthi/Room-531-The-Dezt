@@ -6,6 +6,7 @@ TagManager:
   tags:
   - HidingDesk
   - Doorway
+  - HidingTrigger
   layers:
   - Default
   - TransparentFX
