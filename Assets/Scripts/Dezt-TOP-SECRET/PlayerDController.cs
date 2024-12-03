@@ -75,16 +75,22 @@ public class PlayerDController : MonoBehaviour
     //Checks all the players answers against the answer key and sends them to the pass/fail scene accordingly
     public void Submit()
     {
-        for (int i=0; i < _deztAnswers.Count; i++)
-        {
-            string _playerInput = problemsList[i].transform.GetChild(1).GetComponent<TMP_InputField>().text;
-            string _answer = _deztAnswers[i];
+        StartCoroutine("submitCoroutine");
+    }
 
-            if (!(_playerInput.Equals(_answer)))
-            {
-                SceneManager.LoadScene("LoseScreen");
-            }
+    IEnumerator submitCoroutine()
+    {
+        yield return new WaitUntil(() => problemsList.Count > 0);
+        List<string> _playerInputs = new List<string>();
+        for (int i = 0; i < _deztAnswers.Count; i++)
+        {
+            _playerInputs.Add(problemsList[i].transform.GetChild(1).gameObject.GetComponent<TMP_InputField>().text);
         }
-        SceneManager.LoadScene("WinScreen");
+
+        if (DeztUtil.CheckDezt(_playerInputs, _deztAnswers))
+        {
+            SceneManager.LoadScene("WinScreen");
+        }
+        SceneManager.LoadScene("LoseScreen");
     }
 }
