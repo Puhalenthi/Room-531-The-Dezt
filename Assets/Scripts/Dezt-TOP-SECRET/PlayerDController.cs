@@ -4,6 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerDController : MonoBehaviour
 {
@@ -69,5 +70,21 @@ public class PlayerDController : MonoBehaviour
                 Debug.Log(_deztAnswers.Count);
             }
         }
+    }
+
+    //Checks all the players answers against the answer key and sends them to the pass/fail scene accordingly
+    public void Submit()
+    {
+        for (int i=0; i < _deztAnswers.Count; i++)
+        {
+            string _playerInput = problemsList[i].transform.GetChild(1).GetComponent<TMP_InputField>().text;
+            string _answer = _deztAnswers[i];
+
+            if (!(_playerInput.Equals(_answer)))
+            {
+                SceneManager.LoadScene("LoseScreen");
+            }
+        }
+        SceneManager.LoadScene("WinScreen");
     }
 }
