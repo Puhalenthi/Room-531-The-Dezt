@@ -5,19 +5,25 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject player;
-
     
-    private float playerWalkingSpeed = 2.0f;
-    private float playerCrouchingSpeed = 1.0f;
+    private float _playerWalkingSpeed = 2.0f;
+    private float _playerCrouchingSpeed = 1.0f;
 
-    private Rigidbody playerRigidbody;
+    private Rigidbody _playerRigidbody;
 
-    private bool isCrouching = false;
+    private bool _isCrouching = false;
+    public bool IsHiding { get; private set; }
+    public GameObject CurrentHidingDesk { get; private set;}
+
+    public bool IsSitting { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        playerRigidbody = player.GetComponent<Rigidbody>();
+        _playerRigidbody = player.GetComponent<Rigidbody>();
+        IsHiding = false;
+        //TODO- change the line to IsSitting = true once the sitting mechanic is implemented
+        IsSitting = false;
     }
 
     // Update is called once per frame
@@ -31,7 +37,7 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float speed = isCrouching ? playerCrouchingSpeed : playerWalkingSpeed;
+        float speed = _isCrouching ? _playerCrouchingSpeed : _playerWalkingSpeed;
         Vector3 movement = Vector3.zero;
 
         // Keyboard Inputs
@@ -52,20 +58,38 @@ public class PlayerController : MonoBehaviour
             movement += player.transform.right;
         }
 
-        playerRigidbody.MovePosition(player.transform.position + movement * Time.deltaTime * speed);
+        _playerRigidbody.MovePosition(player.transform.position + movement * Time.deltaTime * speed);
     }
 
     void ToggleCrouch()
     {
-        if (isCrouching)
+        if (_isCrouching)
         {
-            isCrouching = false;
+            _isCrouching = false;
             player.transform.Translate(new Vector3(0, +0.5f, 0));
         }
         else
         {
-            isCrouching = true;
+            _isCrouching = true;
             player.transform.Translate(new Vector3(0, -0.5f, 0));
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("HidingTrigger"))
+        {
+            IsHiding = true;
+            CurrentHidingDesk = other.gameObject.transform.parent.gameObject;
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("HidingTrigger"))
+        {
+            IsHiding = false;
+            CurrentHidingDesk = null;
         }
     }
 }
