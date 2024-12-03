@@ -95,7 +95,7 @@ public class TeacherMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("HidingDesk"))
         {
             //stops the teacher from teleporting into the player while they are hiding
-            if (_playerController.IsHiding && _playerController.CurrentHidingDesk == collision.gameObject)
+            if (PlayerController.IsHiding && _playerController.CurrentHidingDesk == collision.gameObject)
             {
                 _currentMovementSpeed = 0;
             }

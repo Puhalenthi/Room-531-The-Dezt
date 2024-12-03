@@ -12,10 +12,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _playerRigidbody;
 
     private bool _isCrouching = false;
-    public bool IsHiding { get; private set; }
+    public static bool IsHiding { get; private set; }
     public GameObject CurrentHidingDesk { get; private set;}
 
-    public bool IsSitting { get; private set; }
+    public static bool IsSitting { get; private set; }
+
+    private bool _isCollidingPlayerDesk = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,32 +35,52 @@ public class PlayerController : MonoBehaviour
         {
             ToggleCrouch();
         }
+        if ((_isCollidingPlayerDesk || IsSitting) && Input.GetMouseButtonDown(0))
+        {
+            IsSitting = !IsSitting;
+            _isCrouching = false;
+            Debug.Log(IsSitting);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (IsSitting)
+        {
+            player.transform.position = new Vector3(11.25f, 1f, 10.92f);
+            player.transform.rotation = Quaternion.Euler(0, 270, 0);
+
+            Cursor.lockState = CursorLockMode.None;
+            
+        }
 
     }
     void FixedUpdate()
     {
-        float speed = _isCrouching ? _playerCrouchingSpeed : _playerWalkingSpeed;
-        Vector3 movement = Vector3.zero;
+        if (!IsSitting)
+        {
+            float speed = _isCrouching ? _playerCrouchingSpeed : _playerWalkingSpeed;
+            Vector3 movement = Vector3.zero;
 
-        // Keyboard Inputs
-        if (Input.GetKey(KeyCode.W))
-        {
-            movement += player.transform.forward;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            movement += -player.transform.forward;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            movement += -player.transform.right;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            movement += player.transform.right;
+            // Keyboard Inputs
+            if (Input.GetKey(KeyCode.W))
+            {
+                movement += player.transform.forward;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                movement += -player.transform.forward;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                movement += -player.transform.right;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                movement += player.transform.right;
+            }
+
+            _playerRigidbody.MovePosition(player.transform.position + movement * Time.deltaTime * speed);
         }
 
-        _playerRigidbody.MovePosition(player.transform.position + movement * Time.deltaTime * speed);
     }
 
     void ToggleCrouch()
@@ -75,6 +97,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("PlayerDesk"))
+        {
+            _isCollidingPlayerDesk = true;
+        }
+    }
+    public void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("PlayerDesk"))
+        {
+            _isCollidingPlayerDesk = false;
+        }
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("HidingTrigger"))
@@ -82,8 +119,8 @@ public class PlayerController : MonoBehaviour
             IsHiding = true;
             CurrentHidingDesk = other.gameObject.transform.parent.gameObject;
         }
-    }
 
+    }
     public void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("HidingTrigger"))
@@ -92,4 +129,6 @@ public class PlayerController : MonoBehaviour
             CurrentHidingDesk = null;
         }
     }
+
+
 }

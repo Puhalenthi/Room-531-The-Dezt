@@ -2254,7 +2254,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
@@ -4909,6 +4909,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Empty_Desk (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3143909541194983458, guid: 190400ef75f5c6b47bbeb25ede2da7e6, type: 3}
+      propertyPath: m_TagString
+      value: PlayerDesk
+      objectReference: {fileID: 0}
     - target: {fileID: 7977248572995276900, guid: 190400ef75f5c6b47bbeb25ede2da7e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.25
@@ -4948,6 +4952,10 @@ PrefabInstance:
     - target: {fileID: 7977248572995276900, guid: 190400ef75f5c6b47bbeb25ede2da7e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653586569599749437, guid: 190400ef75f5c6b47bbeb25ede2da7e6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

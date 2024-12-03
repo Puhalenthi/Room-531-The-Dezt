@@ -18,9 +18,13 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Mouse X");
-        float verticalInput = Input.GetAxis("Mouse Y");
+        if (!PlayerController.IsSitting)
+        {
+            float horizontalInput = Input.GetAxis("Mouse X");
+            float verticalInput = Input.GetAxis("Mouse Y");
 
-        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed);
+            transform.Rotate(Vector3.up, horizontalInput * rotationSpeed);
+        }
+        
     }
 }

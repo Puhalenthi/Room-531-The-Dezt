@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     public GameObject Player;
-    private PlayerController playerController;
     public GameObject TeacherPrefab;
     public GameObject DoorWay;
 
@@ -32,7 +31,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Player = Instantiate(PlayerPrefab, new Vector3(10.0f, 1.0f, 10.0f), Quaternion.identity);
-        playerController = Player.GetComponent<PlayerController>();
 
         _teacherSpawnDelay = StartingTeacherSpawnDelay;
         _teacherSpawnCount = 0;
@@ -74,7 +72,7 @@ public class GameManager : MonoBehaviour
             audioSource.PlayOneShot(JumpScareClip);
 
             //Checks if the player is hiding/safe (won't chase the player in that instance)
-            if (playerController.IsHiding || playerController.IsSitting)
+            if (PlayerController.IsHiding || PlayerController.IsSitting)
             {
                 Debug.Log("test");
                 newTeacherScript.followPlayer = false;
