@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public static bool IsHiding { get; private set; }
     public GameObject CurrentHidingDesk { get; private set;}
 
+    public static GameObject playerDezt { get; set; }
+
     public static bool IsSitting { get; private set; }
 
     private bool _isCollidingPlayerDesk = false;
@@ -24,8 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         _playerRigidbody = player.GetComponent<Rigidbody>();
         IsHiding = false;
-        //TODO- change the line to IsSitting = true once the sitting mechanic is implemented
-        IsSitting = false;
+        IsSitting = true;
     }
 
     // Update is called once per frame
@@ -35,11 +37,11 @@ public class PlayerController : MonoBehaviour
         {
             ToggleCrouch();
         }
-        if ((_isCollidingPlayerDesk || IsSitting) && Input.GetMouseButtonDown(0))
+        if ((_isCollidingPlayerDesk || IsSitting) && Input.GetKeyDown(KeyCode.N))
         {
             IsSitting = !IsSitting;
             _isCrouching = false;
-            Debug.Log(IsSitting);
+            playerDezt.gameObject.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
         }
 
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour
         {
             player.transform.position = new Vector3(11.25f, 1f, 10.92f);
             player.transform.rotation = Quaternion.Euler(0, 270, 0);
-
+            playerDezt.gameObject.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             
         }

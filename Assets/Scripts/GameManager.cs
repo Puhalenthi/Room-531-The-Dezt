@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {  
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Player = Instantiate(PlayerPrefab, new Vector3(10.0f, 1.0f, 10.0f), Quaternion.identity);
+        // set the player's playerDezt variable to an object int he scene
+        PlayerController.playerDezt = GameObject.Find("PlayerDezt");
 
         _teacherSpawnDelay = StartingTeacherSpawnDelay;
         _teacherSpawnCount = 0;
