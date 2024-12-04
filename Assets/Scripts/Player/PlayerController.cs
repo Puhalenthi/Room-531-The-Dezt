@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _playerRigidbody = player.GetComponent<Rigidbody>();
-        IsHiding = true;
+        IsHiding = false;
         IsSitting = true;
     }
 
