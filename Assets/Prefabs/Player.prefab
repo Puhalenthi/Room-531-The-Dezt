@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 6162071935278884328}
+  playerDezt: {fileID: 0}
 --- !u!114 &4108127355474029369
 MonoBehaviour:
   m_ObjectHideFlags: 0
