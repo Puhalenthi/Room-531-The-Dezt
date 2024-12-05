@@ -34,11 +34,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.LeftControl) && IsHiding == false)
         {
             ToggleCrouch();
         }
-        if ((_isCollidingPlayerDesk || IsSitting) && Input.GetKeyDown(KeyCode.N))
+        if ((_isCollidingPlayerDesk || IsSitting) && Input.GetKeyDown(KeyCode.R))
         {
             IsSitting = !IsSitting;
             _isCrouching = false;
