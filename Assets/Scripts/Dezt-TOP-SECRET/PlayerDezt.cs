@@ -8,7 +8,7 @@ public class PlayerDezt : MonoBehaviour //This will be a singleton
     
     [SerializeField]
     private static int _noQuestions = 10;
-    private string _studentName;
+    public string StudentName {get; set;}
     public List<string> DeztQuestions  {get; private set;} = new List<string> (_noQuestions);
     public List<string> DeztAnswers  {get; private set;} = new List<string> (_noQuestions);
     
@@ -35,14 +35,10 @@ public class PlayerDezt : MonoBehaviour //This will be a singleton
         
         for (int i = 0; i < _noQuestions; i ++) 
         {
-            //Debug.Log(i);
-            (List<int> lQuestion, List<int> lAnswer) = DeztUtil.GenDeztQuestion();
-            List<string> formattedQuestion = DeztUtil.FormatDeztQuestion(lQuestion, lAnswer);
-            if (i == 0) {
-                Debug.Log(formattedQuestion[0]);
-            }
-            Instance.DeztQuestions.Add(formattedQuestion[0]);
-            Instance.DeztAnswers.Add(formattedQuestion[1]);
+            (List<int> _lQuestion, List<int> _lAnswer) = DeztUtil.GenDeztQuestion();
+            List<string> _formattedQuestion = DeztUtil.FormatDeztQuestion(_lQuestion, _lAnswer);
+            Instance.DeztQuestions.Add(_formattedQuestion[0]);
+            Instance.DeztAnswers.Add(_formattedQuestion[1]);
         }
     }
 }

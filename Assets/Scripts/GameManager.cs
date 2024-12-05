@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab;
     public GameObject Player;
     public GameObject PlayerDezt;
+    public List<GameObject> StudentDezts;
     public GameObject TeacherPrefab;
     public GameObject DoorWay;
 
@@ -34,7 +35,8 @@ public class GameManager : MonoBehaviour
     {
         Player = Instantiate(PlayerPrefab, new Vector3(10.0f, 1.0f, 10.0f), Quaternion.identity);
         // set the player's playerDezt variable to an object int he scene
-        PlayerController.playerDezt = PlayerDezt;
+        PlayerController.PlayerDezt = PlayerDezt;
+        PlayerController.StudentDezts = StudentDezts;
 
         _teacherSpawnDelay = StartingTeacherSpawnDelay;
         _teacherSpawnCount = 0;

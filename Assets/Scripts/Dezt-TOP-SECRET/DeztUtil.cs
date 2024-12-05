@@ -5,108 +5,108 @@ using System;
 
 public class DeztUtil : MonoBehaviour
 {
-    private static System.Random rnd = new System.Random();
+    private static System.Random _rnd = new System.Random();
 
     public static (List<int> question, List<int> answer) GenDeztQuestion()
     {
-        int noOfRoots = rnd.Next(2, 6);
-        List<int> roots = new List<int>(noOfRoots);
-        for (int i = 0; i < noOfRoots; i++)
+        int _noOfRoots = _rnd.Next(2, 6);
+        List<int> _roots = new List<int>(_noOfRoots);
+        for (int i = 0; i < _noOfRoots; i++)
         {
-            roots.Add(rnd.Next(22) - 11); //(-10, 10)
+            _roots.Add(_rnd.Next(22) - 11); //(-10, 10)
         }
-        List<int> polynomial = new List<int> { 1 };
-        int[] pastPolynomial;
-        foreach (int root in roots)
+        List<int> _polynomial = new List<int> { 1 };
+        int[] _pastPolynomial;
+        foreach (int _root in _roots)
         {
-            pastPolynomial = new int[polynomial.Count];
-            polynomial.CopyTo(pastPolynomial);
-            polynomial.Add(1);
-            polynomial[0] *= -root;
-            for (int degree = 1; degree < polynomial.Count - 1; degree++)
+            _pastPolynomial = new int[_polynomial.Count];
+            _polynomial.CopyTo(_pastPolynomial);
+            _polynomial.Add(1);
+            _polynomial[0] *= -_root;
+            for (int _degree = 1; _degree < _polynomial.Count - 1; _degree++)
             {
-                polynomial[degree] = pastPolynomial[degree - 1] - root * polynomial[degree];
+                _polynomial[_degree] = _pastPolynomial[_degree - 1] - _root * _polynomial[_degree];
             }
         }
-        return (polynomial, roots);
+        return (_polynomial, _roots);
     }
 
-    public static string FormatDeztQuestion(List<int> deztPolynomial) //Formats the polynomial for input into TextMeshPro
+    public static string FormatDeztQuestion(List<int> _deztPolynomial) //Formats the polynomial for input into TextMeshPro
     {
-        string formattedQuestion = "";
-        string term;
+        string _formattedQuestion = "";
+        string _term;
 
-        term = "x<sup>" + (deztPolynomial.Count - 1) + "</sup>";
-        switch (deztPolynomial[deztPolynomial.Count - 1])
+        _term = "x<sup>" + (_deztPolynomial.Count - 1) + "</sup>";
+        switch (_deztPolynomial[_deztPolynomial.Count - 1])
         {
             case -1:
-                formattedQuestion += "-" + term;
+                _formattedQuestion += "-" + _term;
                 break;
             case 1:
-                formattedQuestion += term;
+                _formattedQuestion += _term;
                 break;
             default:
-                formattedQuestion += deztPolynomial[deztPolynomial.Count - 1] + term;
+                _formattedQuestion += _deztPolynomial[_deztPolynomial.Count - 1] + _term;
                 break;
         }
-        for (int i = deztPolynomial.Count - 2; i > 0; i--)
+        for (int i = _deztPolynomial.Count - 2; i > 0; i--)
         {
             if (i == 1)
             {
-                term = "x";
+                _term = "x";
             }
             else
             {
-                term = "x<sup>" + i + "</sup>";
+                _term = "x<sup>" + i + "</sup>";
             }
-            switch (deztPolynomial[i])
+            switch (_deztPolynomial[i])
             {
                 case 0:
                     break;
                 case -1:
-                    formattedQuestion += " - " + term;
+                    _formattedQuestion += " - " + _term;
                     break;
                 case 1:
-                    formattedQuestion += " + " + term;
+                    _formattedQuestion += " + " + _term;
                     break;
                 case < 0:
-                    formattedQuestion += " - " + (-deztPolynomial[i]) + term;
+                    _formattedQuestion += " - " + (-_deztPolynomial[i]) + _term;
                     break;
                 default: //coeff is positive
-                    formattedQuestion += " + " + deztPolynomial[i] + term;
+                    _formattedQuestion += " + " + _deztPolynomial[i] + _term;
                     break;
             }
         }
-        switch (deztPolynomial[0])
+        switch (_deztPolynomial[0])
         {
             case < 0:
-                formattedQuestion += " - " + (-deztPolynomial[0]);
+                _formattedQuestion += " - " + (-_deztPolynomial[0]);
                 break;
             case 0:
                 break;
             case > 0:
-                formattedQuestion += " + " + deztPolynomial[0];
+                _formattedQuestion += " + " + _deztPolynomial[0];
                 break;
         }
-        return formattedQuestion;
+        return _formattedQuestion;
     }
 
-    public static List<string> FormatDeztQuestion(List<int> deztPolynomial, List<int> roots)
+    public static List<string> FormatDeztQuestion(List<int> _deztPolynomial, List<int> _roots)
     {
-        string formattedQuestion = FormatDeztQuestion(deztPolynomial);
-        string formattedAnswer = String.Join(", ", roots.ToArray());
-        return new List<string> { formattedQuestion, formattedAnswer };
+        string _formattedQuestion = FormatDeztQuestion(_deztPolynomial);
+        string _formattedAnswer = String.Join(", ", _roots.ToArray());
+        return new List<string> { _formattedQuestion, _formattedAnswer };
     }
 
-    public static Boolean CheckDezt(List<string> userAnswers, List<string> actualAnswers)
+    public static Boolean CheckDezt(List<string> _userAnswers, List<string> _actualAnswers)
     {
-        HashSet<string> singleUserAnswer;
-        HashSet<string> singleActualAnswer;
-        for (int i = 0; i < userAnswers.Count; i++)
+        HashSet<string> _singleUserAnswer;
+        HashSet<string> _singleActualAnswer;
+        for (int i = 0; i < _userAnswers.Count; i++)
         {
-            singleUserAnswer = new HashSet<string>(userAnswers[i].Split(", "));
-            singleActualAnswer = new HashSet<string>(actualAnswers[i].Split(", "));
-            if (!singleUserAnswer.SetEquals(singleActualAnswer)) { return false; }
+            _singleUserAnswer = new HashSet<string>(_userAnswers[i].Split(", "));
+            _singleActualAnswer = new HashSet<string>(_actualAnswers[i].Split(", "));
+            if (!_singleUserAnswer.SetEquals(_singleActualAnswer)) { return false; }
         }
         return true;
     }
