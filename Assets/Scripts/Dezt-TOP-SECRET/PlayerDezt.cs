@@ -35,10 +35,10 @@ public class PlayerDezt : MonoBehaviour //This will be a singleton
         
         for (int i = 0; i < _noQuestions; i ++) 
         {
-            (List<int> lQuestion, List<int> lAnswer) = DeztUtil.GenDeztQuestion();
-            List<string> formattedQuestion = DeztUtil.FormatDeztQuestion(lQuestion, lAnswer);
-            Instance.DeztQuestions.Add(formattedQuestion[0]);
-            Instance.DeztAnswers.Add(formattedQuestion[1]);
+            (List<int> _lQuestion, List<int> _lAnswer) = DeztUtil.GenDeztQuestion();
+            List<string> _formattedQuestion = DeztUtil.FormatDeztQuestion(_lQuestion, _lAnswer);
+            Instance.DeztQuestions.Add(_formattedQuestion[0]);
+            Instance.DeztAnswers.Add(_formattedQuestion[1]);
         }
     }
 }
