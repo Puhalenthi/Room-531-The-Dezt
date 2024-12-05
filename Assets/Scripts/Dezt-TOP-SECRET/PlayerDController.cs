@@ -15,7 +15,10 @@ public class PlayerDController : MonoBehaviour
 
     public GameObject ProblemPrefab; //Prefab used
     public GameObject TestPaperImage; //The image of the paper itself
-    public GameObject instructions;
+    public GameObject Instructions;
+    public GameObject NameField; //This is the name field on the dezt icon
+    private GameObject playerNameField; //This is the name field on the actual dezt
+    private string _playerNameFieldText;
 
     private GameObject problem; //Main body
     private GameObject question; //Question
@@ -39,9 +42,8 @@ public class PlayerDController : MonoBehaviour
         problemsList = new List<GameObject>(_count);
 
         lengthOfPaper = TestPaperImage.transform.localScale.y;
-        instructionsPosition = (lengthOfPaper / 2 - instructions.transform.localPosition.y + instructions.transform.localScale.y / 2);
+        instructionsPosition = (lengthOfPaper / 2 - Instructions.transform.localPosition.y + Instructions.transform.localScale.y / 2);
         nextPos = instructionsPosition;
-        Debug.Log(_count);
         for (int i = 0; i < _count; i++)
         {
             problem = Instantiate(ProblemPrefab);
@@ -63,13 +65,11 @@ public class PlayerDController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_deztQuestions != null && _deztAnswers != null)
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                Debug.Log(_deztAnswers.Count);
-            }
-        }
+       _playerNameFieldText = GameObject.Find("PlayerNameField").GetComponent<TMP_InputField>().text;
+       if (_playerNameFieldText != "")
+       {
+           NameField.GetComponent<TextMeshProUGUI>().text = _playerNameFieldText;
+       }
     }
 
     //Checks all the players answers against the answer key and sends them to the pass/fail scene accordingly
