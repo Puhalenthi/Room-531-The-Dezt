@@ -8,7 +8,7 @@ public class PlayerDezt : MonoBehaviour //This will be a singleton
     
     [SerializeField]
     private static int _noQuestions = 10;
-    public string _studentName {get; set;}
+    public string StudentName {get; set;}
     public List<string> DeztQuestions  {get; private set;} = new List<string> (_noQuestions);
     public List<string> DeztAnswers  {get; private set;} = new List<string> (_noQuestions);
     
