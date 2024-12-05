@@ -3264,6 +3264,10 @@ PrefabInstance:
       propertyPath: m_TextStyleHashCode
       value: -1183493901
       objectReference: {fileID: 0}
+    - target: {fileID: 6584128443536975924, guid: fd0b13c5558a052459838d608760bf98, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7168836438013778498, guid: fd0b13c5558a052459838d608760bf98, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -4.51

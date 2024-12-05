@@ -35,7 +35,6 @@ public class PlayerDezt : MonoBehaviour //This will be a singleton
         
         for (int i = 0; i < _noQuestions; i ++) 
         {
-            //Debug.Log(i);
             (List<int> lQuestion, List<int> lAnswer) = DeztUtil.GenDeztQuestion();
             List<string> formattedQuestion = DeztUtil.FormatDeztQuestion(lQuestion, lAnswer);
             Instance.DeztQuestions.Add(formattedQuestion[0]);

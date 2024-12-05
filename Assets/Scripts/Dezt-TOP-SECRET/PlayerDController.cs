@@ -25,6 +25,7 @@ public class PlayerDController : MonoBehaviour
     private GameObject answerField; //Answer Box
     private int _count; //count of problems in dezt
 
+    
     private float heightPerLine = 20f;
     private float lengthOfPaper;
     private float instructionsPosition;
@@ -48,7 +49,6 @@ public class PlayerDController : MonoBehaviour
         {
             problem = Instantiate(ProblemPrefab);
             problem.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _deztQuestions[i];
-            Debug.Log(_deztQuestions[i]);
             problemsList.Add(problem);
 
             //Positioning
@@ -58,7 +58,6 @@ public class PlayerDController : MonoBehaviour
             problem.transform.localPosition = new Vector3(problem.transform.parent.transform.localPosition.x - xOffset, nextPos, problem.transform.localPosition.z);
             nextPos += heightPerLine * 3; //Each problem is given 40 (units) or about 2 lines
         }
-        Debug.Log(problemsList.Count);
 
     }
 
