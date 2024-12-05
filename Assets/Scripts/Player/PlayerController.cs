@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -109,6 +110,10 @@ public class PlayerController : MonoBehaviour
         {
             _isCollidingPlayerDesk = true;
         }
+        if (other.gameObject.CompareTag("Teacher"))
+        {
+            StartCoroutine("deathDelay");
+        }
     }
     public void OnCollisionExit(Collision other)
     {
@@ -134,6 +139,15 @@ public class PlayerController : MonoBehaviour
             IsHiding = false;
             CurrentHidingDesk = null;
         }
+    }
+
+    IEnumerator deathDelay()
+    {
+        _playerWalkingSpeed = 0;
+        _playerCrouchingSpeed = 0;
+        yield return new WaitForSeconds(3);
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene("LoseScreen");
     }
 
 
