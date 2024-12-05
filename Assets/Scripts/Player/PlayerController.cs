@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.LeftControl) && IsHiding == false)
         {
             ToggleCrouch();
         }
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
             if ((transform.position.x - _dezt.transform.position.x) < 10f && 
                 (transform.position.y - _dezt.transform.position.y) < 10f &&
                 (transform.position.y - _dezt.transform.position.y) < 10f &&
-                Input.GetKeyDown(KeyCode.N) && !_hasDeztOpen)
+                Input.GetKeyDown(KeyCode.R) && !_hasDeztOpen)
             {
                 StudentDezts[i].gameObject.SetActive(true);
                 _hasDeztOpen = true;
@@ -56,7 +57,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.N) && _hasDeztOpen) 
+        if (Input.GetKeyDown(KeyCode.R) && _hasDeztOpen) 
         {
             _hasDeztOpen = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
             _currentDezt = null;
         }
 
-        if ((_isCollidingPlayerDesk || IsSitting) && Input.GetKeyDown(KeyCode.N))
+        if ((_isCollidingPlayerDesk || IsSitting) && Input.GetKeyDown(KeyCode.R))
         {
             IsSitting = !IsSitting;
             _isCrouching = false;
@@ -137,6 +138,10 @@ public class PlayerController : MonoBehaviour
         {
             _isCollidingPlayerDesk = true;
         }
+        if (other.gameObject.CompareTag("Teacher"))
+        {
+            StartCoroutine("deathDelay");
+        }
     }
     public void OnCollisionExit(Collision other)
     {
@@ -162,6 +167,15 @@ public class PlayerController : MonoBehaviour
             IsHiding = false;
             CurrentHidingDesk = null;
         }
+    }
+
+    IEnumerator deathDelay()
+    {
+        _playerWalkingSpeed = 0;
+        _playerCrouchingSpeed = 0;
+        yield return new WaitForSeconds(3);
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene("LoseScreen");
     }
 
 
