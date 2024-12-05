@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private bool _isCrouching = false;
     public static bool IsHiding { get; private set; }
-    private bool _hasDeztOpen = false;
+    private bool _hasDeztOpen = true;
     private GameObject _currentDezt = null;
     public GameObject CurrentHidingDesk { get; private set;}
 
@@ -46,16 +46,18 @@ public class PlayerController : MonoBehaviour
         for (int i=0; i<StudentDezts.Count; i++)
         {
             GameObject _dezt = StudentDezts[i];
-            if (Math.Abs(transform.position.x - _dezt.transform.position.x) < 10f && 
-                Math.Abs(transform.position.y - _dezt.transform.position.y) < 10f &&
-                Math.Abs(transform.position.z - _dezt.transform.position.z) < 10f &&
+
+            if (Math.Abs(transform.position.x - _dezt.transform.parent.parent.position.x) < 3f && 
+                Math.Abs(transform.position.y - _dezt.transform.parent.parent.position.y) < 3f &&
+                Math.Abs(transform.position.z - _dezt.transform.parent.parent.position.z) < 3f &&
                 Input.GetKeyDown(KeyCode.R) && !_hasDeztOpen)
             {
                 Debug.Log("MCMCOMOC");
-                StudentDezts[i].gameObject.SetActive(true);
+                Debug.Log(_dezt);
+                _dezt.SetActive(true);
                 _hasDeztOpen = true;
                 Cursor.lockState = CursorLockMode.None;
-                _currentDezt = StudentDezts[i];
+                _currentDezt = _dezt;
             }
             else
             {
@@ -63,11 +65,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && _hasDeztOpen) 
+        if (Input.GetKeyDown(KeyCode.R) && _hasDeztOpen && !PlayerDezt.gameObject.active) 
         {
             _hasDeztOpen = false;
             Cursor.lockState = CursorLockMode.Locked;
-            _currentDezt.gameObject.SetActive(false);
+            _currentDezt.SetActive(false);
             _currentDezt = null;
         }
 
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
             IsSitting = !IsSitting;
             _isCrouching = false;
             PlayerDezt.gameObject.SetActive(false);
+            _hasDeztOpen = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
 
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
             player.transform.position = new Vector3(11.25f, 1f, 10.92f);
             player.transform.rotation = Quaternion.Euler(0, 270, 0);
             PlayerDezt.gameObject.SetActive(true);
+            _hasDeztOpen = true;
             Cursor.lockState = CursorLockMode.None;    
         }
 
