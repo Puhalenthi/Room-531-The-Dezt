@@ -146,6 +146,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Teacher
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 809945461c5979744a9f0289dfdf0deb, type: 3}
+      propertyPath: m_TagString
+      value: Teacher
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -216,6 +220,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   DoorWay: {fileID: 0}
   AgroWaitTime: 5
+  followPlayer: 0
 --- !u!136 &8113191951109487905
 CapsuleCollider:
   m_ObjectHideFlags: 0
