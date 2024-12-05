@@ -7,8 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject player;
     
-    private float _playerWalkingSpeed = 2.0f;
-    private float _playerCrouchingSpeed = 1.0f;
+    private float _playerWalkingSpeed = 1.5f;
+    private float _playerCrouchingSpeed = 0.5f;
 
     private Rigidbody _playerRigidbody;
 
@@ -78,6 +78,10 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
             {
                 movement += player.transform.right;
+            }
+            if (!Input.anyKeyDown)
+            {
+                _playerRigidbody.velocity = Vector3.zero;
             }
 
             _playerRigidbody.MovePosition(player.transform.position + movement * Time.deltaTime * speed);
