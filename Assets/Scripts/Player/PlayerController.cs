@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private bool _isCrouching = false;
     public static bool IsHiding { get; private set; }
-    private bool _hasDeztOpen = true;
+    private bool _hasDeztOpen;
     private GameObject _currentDezt = null;
     public GameObject CurrentHidingDesk { get; private set;}
 
@@ -27,37 +27,46 @@ public class PlayerController : MonoBehaviour
 
     private bool _isCollidingPlayerDesk = false;
 
+    private bool wasLoopCalled;
+
     // Start is called before the first frame update
     void Start()
     {
         _playerRigidbody = player.GetComponent<Rigidbody>();
         IsHiding = false;
         IsSitting = true;
+        _hasDeztOpen = false;
+
+        DisableDezts();
     }
 
     // Update is called once per frame
     void Update()
     {
+        wasLoopCalled = false;
         if (Input.GetKeyDown(KeyCode.LeftControl) && IsHiding == false)
         {
             ToggleCrouch();
         }
 
-        for (int i=0; i<StudentDezts.Count; i++)
+        wasLoopCalled = false;
+        for (int i = 0; i < StudentDezts.Count; i++)
         {
             GameObject _dezt = StudentDezts[i];
 
-            if (Math.Abs(transform.position.x - _dezt.transform.parent.parent.position.x) < 3f && 
-                Math.Abs(transform.position.y - _dezt.transform.parent.parent.position.y) < 3f &&
-                Math.Abs(transform.position.z - _dezt.transform.parent.parent.position.z) < 3f &&
-                Input.GetKeyDown(KeyCode.R) && !_hasDeztOpen)
+            if (Math.Abs(transform.position.x - _dezt.transform.parent.parent.position.x) < 1f &&
+                Math.Abs(transform.position.y - _dezt.transform.parent.parent.position.y) < 1f &&
+                Math.Abs(transform.position.z - _dezt.transform.parent.parent.position.z) < 1f &&
+                Input.GetKeyDown(KeyCode.R) && !_hasDeztOpen && !IsSitting)
             {
+                wasLoopCalled = true;
                 Debug.Log("MCMCOMOC");
                 Debug.Log(_dezt);
                 _dezt.SetActive(true);
                 _hasDeztOpen = true;
                 Cursor.lockState = CursorLockMode.None;
                 _currentDezt = _dezt;
+                break;
             }
             else
             {
@@ -65,29 +74,29 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && _hasDeztOpen && !PlayerDezt.gameObject.active) 
-        {
-            _hasDeztOpen = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            _currentDezt.SetActive(false);
-            _currentDezt = null;
-        }
 
         if ((_isCollidingPlayerDesk || IsSitting) && Input.GetKeyDown(KeyCode.R))
         {
             IsSitting = !IsSitting;
             _isCrouching = false;
             PlayerDezt.gameObject.SetActive(false);
-            _hasDeztOpen = false;
+
             Cursor.lockState = CursorLockMode.Locked;
         }
-
+        else if (Input.GetKeyDown(KeyCode.R) && _hasDeztOpen && !wasLoopCalled)
+        {
+            _hasDeztOpen = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            DisableDezts();
+            _currentDezt = null;
+            Debug.Log("in conditional");
+        }
         if (IsSitting)
         {
             player.transform.position = new Vector3(11.25f, 1f, 10.92f);
             player.transform.rotation = Quaternion.Euler(0, 270, 0);
             PlayerDezt.gameObject.SetActive(true);
-            _hasDeztOpen = true;
+            _hasDeztOpen = false;
             Cursor.lockState = CursorLockMode.None;    
         }
 
@@ -139,6 +148,15 @@ public class PlayerController : MonoBehaviour
         {
             _isCrouching = true;
             player.transform.Translate(new Vector3(0, -0.5f, 0));
+        }
+    }
+
+    void DisableDezts()
+    {
+        Debug.Log("HERE");
+        for (int i = 0; i < StudentDezts.Count; i++)
+        {
+            StudentDezts[i].gameObject.SetActive(false);
         }
     }
 
