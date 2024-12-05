@@ -182,7 +182,7 @@ MonoBehaviour:
   m_text: 'Move: WASD
 
 
-    Crouch: H
+    Crouch: Left Control
 
 
     Open/Close Dezt: R
