@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private bool _isCrouching = false;
     public static bool IsHiding { get; private set; }
-    private bool _hasDeztOpen = true;
+    private bool _hasDeztOpen = false;
     private GameObject _currentDezt = null;
     public GameObject CurrentHidingDesk { get; private set;}
 
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                StudentDezts[i].gameObject.SetActive(false);
+                //StudentDezts[i].gameObject.SetActive(false);
             }
         }
 
