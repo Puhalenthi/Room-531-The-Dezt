@@ -80,7 +80,7 @@ public class PlayerDController : MonoBehaviour
 
     IEnumerator submitCoroutine()
     {
-        yield return new WaitUntil(() => problemsList.Count > 0);
+        yield return new WaitUntil(() => problemsList.Count == _deztAnswers.Count);
         List<string> _playerInputs = new List<string>();
         for (int i = 0; i < _deztAnswers.Count; i++)
         {
