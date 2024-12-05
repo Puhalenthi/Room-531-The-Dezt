@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab;
     public GameObject Player;
     public GameObject PlayerDezt;
-    public List<Canvas> StudentDezts;
+    public List<GameObject> StudentDezts;
     public GameObject TeacherPrefab;
     public GameObject DoorWay;
 

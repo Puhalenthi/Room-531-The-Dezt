@@ -2779,6 +2779,10 @@ PrefabInstance:
       propertyPath: PlayerPrefab
       value: 
       objectReference: {fileID: 6162071935278884328, guid: 05ac6ce04d5970d4d96f75e7d2af27ae, type: 3}
+    - target: {fileID: 8525811788840634405, guid: 9f462964183408249bfb7dbbb93b1110, type: 3}
+      propertyPath: StudentDezts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
