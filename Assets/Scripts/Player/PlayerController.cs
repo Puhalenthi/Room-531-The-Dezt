@@ -14,9 +14,12 @@ public class PlayerController : MonoBehaviour
 
     private bool _isCrouching = false;
     public static bool IsHiding { get; private set; }
+    private bool _hasDeztOpen = false;
+    private Canvas _currentDezt = null;
     public GameObject CurrentHidingDesk { get; private set;}
 
-    public static GameObject playerDezt { get; set; }
+    public static GameObject PlayerDezt { get; set; }
+    public static List<Canvas> StudentDezts { get; set; }
 
     public static bool IsSitting { get; private set; }
 
@@ -37,11 +40,35 @@ public class PlayerController : MonoBehaviour
         {
             ToggleCrouch();
         }
+
+        for (int i=0; i<StudentDezts.Count; i++)
+        {
+            Canvas _dezt = StudentDezts[i];
+            if ((transform.position.x - _dezt.transform.position.x) < 10f && 
+                (transform.position.y - _dezt.transform.position.y) < 10f &&
+                (transform.position.y - _dezt.transform.position.y) < 10f &&
+                Input.GetKeyDown(KeyCode.N) && !_hasDeztOpen)
+            {
+                StudentDezts[i].gameObject.SetActive(true);
+                _hasDeztOpen = true;
+                Cursor.lockState = CursorLockMode.None;
+                _currentDezt = StudentDezts[i];
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.N) && _hasDeztOpen) 
+        {
+            _hasDeztOpen = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            _currentDezt.gameObject.SetActive(false);
+            _currentDezt = null;
+        }
+
         if ((_isCollidingPlayerDesk || IsSitting) && Input.GetKeyDown(KeyCode.N))
         {
             IsSitting = !IsSitting;
             _isCrouching = false;
-            playerDezt.gameObject.SetActive(false);
+            PlayerDezt.gameObject.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
         }
 
@@ -49,9 +76,8 @@ public class PlayerController : MonoBehaviour
         {
             player.transform.position = new Vector3(11.25f, 1f, 10.92f);
             player.transform.rotation = Quaternion.Euler(0, 270, 0);
-            playerDezt.gameObject.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            
+            PlayerDezt.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;    
         }
 
     }
@@ -83,8 +109,10 @@ public class PlayerController : MonoBehaviour
             {
                 _playerRigidbody.velocity = Vector3.zero;
             }
-
-            _playerRigidbody.MovePosition(player.transform.position + movement * Time.deltaTime * speed);
+            if (!_hasDeztOpen)
+            {
+                _playerRigidbody.MovePosition(player.transform.position + movement * Time.deltaTime * speed);
+            }
         }
 
     }
