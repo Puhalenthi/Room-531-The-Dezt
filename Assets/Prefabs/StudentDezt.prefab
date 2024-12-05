@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProblemPrefab: {fileID: 2700322245722132229, guid: eff8c38c7fd423e449ab95f3f746ba69, type: 3}
   TestPaperImage: {fileID: 5498063284002272004}
-  instructions: {fileID: 2132362201103081480}
+  Instructions: {fileID: 2132362201103081480}
 --- !u!1 &1161939166348467332
 GameObject:
   m_ObjectHideFlags: 0
